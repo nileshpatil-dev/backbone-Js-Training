@@ -1,0 +1,75 @@
+﻿<div class="row">
+    <div id="app">
+
+    </div>
+</div>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/underscore-1.6.0.js"></script>
+<script src="~/Scripts/backbone-1.0.0.min.js"></script>
+<script>
+
+    var App = {
+        init: function () {
+            this.appView = new AppView({ el: "#app" });
+            this.users = new Users();
+        },
+        start: function () {
+            Backbone.history.start();
+            var usersView = new UsersView({ collection: this.users });
+            this.appView.show(usersView);
+            this.users.fetch();
+        }
+    }
+
+    var AppView = Backbone.View.extend({
+        show: function (childView) {
+            this.$el.append(childView.el);
+        }
+    });
+
+    var UserView = Backbone.View.extend({
+        tagName: 'li',
+        render: function () {
+            this.$el.append(this.model.get('first'));
+            return this.$el;
+        }
+    });
+
+    var UsersView = Backbone.View.extend({
+        tagName: 'ul',
+        initialize: function () {
+            this.collection.on('sync', this.render, this);
+        },
+        render: function () {
+            var el = this.$el;
+            el.empty();
+            this.collection.each(function (item) {
+                var userView = new UserView({ model: item });
+                var rendered = userView.render();
+                el.append(rendered);
+            });
+            return el;
+        }
+    });
+
+
+    User = Backbone.Model.extend({
+        url: "api/users"
+    });
+
+    Users = Backbone.Collection.extend({ url: "api/users" });
+
+    //users = new Users();
+
+    //user = new User();
+    //Backbone.history.start();
+    //var usersView = new UsersView({
+    //    collection: users,
+    //    el: "#app"
+    //})
+
+    $(function () {
+        App.init();
+        App.start();
+    });
+</script>

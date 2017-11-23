@@ -5,21 +5,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Backbone</title>
-    <script src="./jquery-1.9.1.min.js"></script>
-    <script src="./underscore-1.6.0.js"></script>
-    <script src="./backbone-1.0.0.min.js"></script>
-    <style type="text/css">
-        .rectangle {
-            position: absolute;
-            border: 4px solid black;
-        }
-    </style>
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+
 </head>
 
 <body>
-    <h1>Rectangles</h1>
-    <div id="canvas"></div>
+
+
+
+    <h1>Handlebars</h1>
+    
+    <div id="app">
+        
+    </div>
+    <script id="user-detail-template" type="text/x-handlebars-template">
+        {{> partialView}}
+        <a href="#" id="edit-user">Edit {{ name }}</a>
+        <ul>
+        
+        {{#each arr}}
+        <li>    {{this}}</li>
+        {{/each}}
+        
+        </ul>
+        {{#if showLoc}}
+        <ul>
+            
+        {{#each locations}}
+        <li>    {{upperCaseHelper this.name}}</li>
+        {{/each}}
+        
+        </ul>
+        {{else}}
+        <h2>location unavailable</h2>
+        {{/if}}
+        
+    </script>
+    <script src="app.js"></script>
 </body>
-<script src="./rectangle.js"></script>
+
 </html>
